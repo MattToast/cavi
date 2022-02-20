@@ -1,11 +1,18 @@
-from _cavi import (
-    # Status Getters
+from _cavi import (  # Status Getters
     get_arm,
     get_abort,
     get_qdm,
     get_launch,
     get_stabilize,
-    # Data Getters
+)
+from _cavi import (  # Status Setters
+    set_arm,
+    set_abort,
+    set_qdm,
+    set_launch,
+    set_stabilize,
+)
+from _cavi import (  # Data Getters
     get_altitude,
     get_latitude,
     get_longitude,
@@ -25,6 +32,12 @@ __all__ = [
     "get_qdm",
     "get_launch",
     "get_stabilize",
+    # Status Setters
+    "set_arm",
+    "set_abort",
+    "set_qdm",
+    "set_launch",
+    "set_stabilize",
     # Data Getters
     "get_altitude",
     "get_latitude",
