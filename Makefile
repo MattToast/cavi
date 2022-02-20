@@ -1,12 +1,17 @@
-PIP = pip3
+PIP = pip3 --require-virtualenv
 PY = python3
+
+
+.PHONY: cavi
+cavi:
+	${PIP} install --no-deps .
 
 
 .PHONY: all
 all:
-	@${PIP} install .
+	${PIP} install .
 
 
 .PHONY: dev
 dev:
-	@${PIP} install .[dev]
+	${PIP} install .[dev]

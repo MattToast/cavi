@@ -7,6 +7,15 @@ from _cavi import (
     get_stabilize,
     # Data Getters
     get_altitude,
+    get_latitude,
+    get_longitude,
+    get_temperature,
+    get_gyro_x,
+    get_gyro_y,
+    get_gyro_z,
+    get_acceleration_x,
+    get_acceleration_y,
+    get_acceleration_z,
 )
 
 __all__ = [
@@ -18,4 +27,13 @@ __all__ = [
     "get_stabilize",
     # Data Getters
     "get_altitude",
+    "get_latitude",
+    "get_longitude",
+    "get_temperature",
+    "get_gyro_x",
+    "get_gyro_y",
+    "get_gyro_z",
+    "get_acceleration_x",
+    "get_acceleration_y",
+    "get_acceleration_z",
 ]
