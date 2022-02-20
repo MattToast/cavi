@@ -1,4 +1,3 @@
-from click import option
 from setuptools import setup, Extension
 
 
@@ -9,6 +8,7 @@ _cavi = Extension(
         "src/_cavi/cavimodule.cc",
         "src/_cavi/src/py_getdata.cc",
         "src/_cavi/src/py_getstatus.cc",
+        "src/_cavi/src/py_setstatus.cc",
     ],
     optional=False,
 )

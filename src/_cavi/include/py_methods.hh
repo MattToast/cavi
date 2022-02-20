@@ -13,6 +13,13 @@ PyObject* getQDM(PyObject* self);
 PyObject* getLaunch(PyObject* self);
 PyObject* getStabilize(PyObject* self);
 
+// Status Setters
+PyObject* setArm(PyObject* self, PyObject* args);
+PyObject* setAbort(PyObject* self, PyObject* args);
+PyObject* setQDM(PyObject* self, PyObject* args);
+PyObject* setLaunch(PyObject* self, PyObject* args);
+PyObject* setStabilize(PyObject* self, PyObject* args);
+
 // Data Getters
 PyObject* getAltitude(PyObject* self);
 PyObject* getLatitude(PyObject* self);
@@ -25,14 +32,42 @@ PyObject* getAccelerationX(PyObject* self);
 PyObject* getAccelerationY(PyObject* self);
 PyObject* getAccelerationZ(PyObject* self);
 
+// >>>>>>> Stuff I expect will be deleted >>>>>>>
+struct LaunchStatus
+{
+  /*
+  Very basic status structure, presumably will be
+  relaced when the code is actually reading from
+  GPIO pins or getting actual data from the LS
+
+  i.e. TODO: Remove this when able
+  */
+
+  uint32_t ARM;
+  uint32_t ABORT;
+  uint32_t QDM;
+  uint32_t LAUNCH;
+  uint32_t STABILIZE;
+};
+inline LaunchStatus mockStatus{};
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 // Methods struct
-static struct PyMethodDef methods[] = {
+static inline struct PyMethodDef methods[] = {
   // Status Getters
   { "get_arm", (PyCFunction)getArm, METH_NOARGS, "Return the current ARM status" },
   { "get_abort", (PyCFunction)getAbort, METH_NOARGS, "Return the current abort status" },
   { "get_qdm", (PyCFunction)getQDM, METH_NOARGS, "Returns the current qdm status" },
   { "get_launch", (PyCFunction)getLaunch, METH_NOARGS, "Returns the current launch status" },
   { "get_stabilize", (PyCFunction)getStabilize, METH_NOARGS, "Returns the current stabiliation status" },
+
+  // Status Setters
+  {"set_arm", (PyCFunction)setArm, METH_VARARGS, "Set the Launch Station armed flag, returns bool based on success" },
+  {"set_abort", (PyCFunction)setAbort, METH_VARARGS, "Set the Launch Station abort flag, returns bool based on success" },
+  {"set_qdm", (PyCFunction)setQDM, METH_VARARGS, "Set the Launch Station QDM flag, returns bool based on success" },
+  {"set_launch", (PyCFunction)setLaunch, METH_VARARGS, "Set the Launch Station launch flag, returns bool based on success" },
+  {"set_stabilize", (PyCFunction)setStabilize, METH_VARARGS, "Set the Launch Station stabilization flag, returns bool based on success" },
 
   // Data Getters
   { "get_altitude", (PyCFunction)getAltitude, METH_NOARGS, "Return the current measured altitude" },

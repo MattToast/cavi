@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <Python.h> // Needs to be included first
 
 #include "include/py_methods.hh"
 
