@@ -1,28 +1,24 @@
-from _cavi import (  # Status Getters
-    get_arm,
+from _cavi import (
     get_abort,
-    get_qdm,
-    get_launch,
-    get_stabilize,
-)
-from _cavi import (  # Status Setters
-    set_arm,
-    set_abort,
-    set_qdm,
-    set_launch,
-    set_stabilize,
-)
-from _cavi import (  # Data Getters
-    get_altitude,
-    get_latitude,
-    get_longitude,
-    get_temperature,
-    get_gyro_x,
-    get_gyro_y,
-    get_gyro_z,
     get_acceleration_x,
     get_acceleration_y,
     get_acceleration_z,
+    get_altitude,
+    get_arm,
+    get_gyro_x,
+    get_gyro_y,
+    get_gyro_z,
+    get_latitude,
+    get_launch,
+    get_longitude,
+    get_qdm,
+    get_stabilize,
+    get_temperature,
+    set_abort,
+    set_arm,
+    set_launch,
+    set_qdm,
+    set_stabilize,
 )
 
 __all__ = [
