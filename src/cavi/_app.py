@@ -2,37 +2,16 @@ from __future__ import annotations
 
 from threading import Event, Timer
 from typing import TYPE_CHECKING, Dict, List
-from cavi import get_gyro_x
 
 from orbitalcoms import ComsMessage
 
-from _cavi import (
-    get_abort,
-    get_acceleration_x,
-    get_acceleration_y,
-    get_acceleration_z,
-    get_altitude,
-    get_arm,
-    get_gyro_y,
-    get_gyro_z,
-    get_latitude,
-    get_launch,
-    get_longitude,
-    get_qdm,
-    get_stabilize,
-    get_temperature,
-    set_abort,
-    set_arm,
-    set_launch,
-    set_qdm,
-    set_stabilize,
-)
+import _cavi
 
 if TYPE_CHECKING:
     from orbitalcoms import LaunchStation
 
 
-class App:
+class _App:
     __TIMEOUT: float = 60 * 10
 
     def __init__(self, ls: LaunchStation) -> None:
@@ -70,32 +49,37 @@ class App:
 
     def process_msg(self, msg: ComsMessage) -> None:
         """Proceess an incoming message from GS and preforms nessacary actions"""
-        if get_arm() or msg.ARMED:
-            if not get_arm() and msg.ARMED is not None:
+        self.reset_timeout_thread()
+        if _cavi.get_arm() or msg.ARMED:
+            if not _cavi.get_arm() and msg.ARMED is not None:
                 # Set armed if not already
                 # Redundent checks are for mypy
-                set_arm(msg.ARMED)
+                _cavi.set_arm(msg.ARMED)
 
-            if not get_abort() and msg.ABORT:
-                set_abort(msg.ABORT)
+            if not _cavi.get_abort() and msg.ABORT:
+                _cavi.set_abort(msg.ABORT)
 
-            if not get_qdm() and msg.QDM:
-                set_qdm(msg.QDM)
+            if not _cavi.get_qdm() and msg.QDM:
+                _cavi.set_qdm(msg.QDM)
 
-            set_stabilize(msg.STAB)
-            if not get_abort() and not get_qdm() and not get_launch() and msg.LAUNCH:
-                set_launch(msg.LAUNCH)
-
-            self.reset_timeout_thread()
+            _cavi.set_stabilize(msg.STAB)
+            if (
+                not _cavi.get_abort()
+                and not _cavi.get_qdm()
+                and _cavi.get_stabilize()
+                and not _cavi.get_launch()
+                and msg.LAUNCH
+            ):
+                _cavi.set_launch(msg.LAUNCH)
 
     def construct_msg(self) -> ComsMessage:
         """Convience method to construct a message to send to GS"""
         return ComsMessage(
-            ARMED=get_arm(),
-            ABORT=get_abort(),
-            QDM=get_qdm(),
-            LAUNCH=get_launch(),
-            STAB=get_stabilize(),
+            ARMED=_cavi.get_arm(),
+            ABORT=_cavi.get_abort(),
+            QDM=_cavi.get_qdm(),
+            LAUNCH=_cavi.get_launch(),
+            STAB=_cavi.get_stabilize(),
             DATA=self.construct_data(),
         )
 
@@ -105,21 +89,21 @@ class App:
         collected LS data
         """
         return {
-            "altitide": get_altitude(),
-            "temp": get_temperature(),
+            "altitide": _cavi.get_altitude(),
+            "temp": _cavi.get_temperature(),
             "GPS": {
-                "lat": get_latitude(),
-                "lng": get_longitude(),
+                "lat": _cavi.get_latitude(),
+                "lng": _cavi.get_longitude(),
             },
             "gyro": {
-                "X": get_gyro_x(),
-                "Y": get_gyro_y(),
-                "Z": get_gyro_z(),
+                "X": _cavi.get_gyro_x(),
+                "Y": _cavi.get_gyro_y(),
+                "Z": _cavi.get_gyro_z(),
             },
             "accel": {
-                "X": get_acceleration_x(),
-                "Y": get_acceleration_y(),
-                "Z": get_acceleration_z(),
+                "X": _cavi.get_acceleration_x(),
+                "Y": _cavi.get_acceleration_y(),
+                "Z": _cavi.get_acceleration_z(),
             },
         }
 
@@ -135,16 +119,18 @@ class App:
         """
         self.recv_timeout_event.set()
         self.ls.bind_queue(None)
-        set_stabilize(0)
-        set_abort(1)
-        set_qdm(1)
+        _cavi.set_stabilize(0)
+        _cavi.set_abort(1)
+        _cavi.set_qdm(1)
 
     def cleanup(self):
         """Called at end of a mission to dealloc resources"""
         self.ls.bind_queue(None)
         if self.recv_timer and self.recv_timer.is_alive():
             self.recv_timer.cancel()
+            self.recv_timer.join()
+            self.recv_timer = None
 
 
 def run_app(ls: LaunchStation, timeout: float | None = None):
-    App.start(ls, timeout=timeout)
+    _App.start(ls, timeout=timeout)
