@@ -1,5 +1,4 @@
 from __future__ import annotations
-import imp
 
 from threading import Event, Timer
 from typing import TYPE_CHECKING, Dict, List
@@ -20,6 +19,7 @@ from _cavi import (
     get_launch,
     get_longitude,
     get_qdm,
+    get_stabilize,
     get_temperature,
     set_abort,
     set_arm,
@@ -57,7 +57,7 @@ class App:
         self.ls.bind_queue(message_queue)
 
         while not self.mission_end.is_set():
-            while message_queue:
+            while not self.recv_timeout_event.is_set() and message_queue:
                 self.process_msg(message_queue.pop(0))
 
             if not self.ls.send(self.construct_msg()):
@@ -91,7 +91,12 @@ class App:
     def construct_msg(self) -> ComsMessage:
         """Convience method to construct a message to send to GS"""
         return ComsMessage(
-            ARMED=0, ABORT=0, QDM=0, LAUNCH=0, STAB=0, DATA=self.construct_data()
+            ARMED=get_arm(),
+            ABORT=get_abort(),
+            QDM=get_qdm(),
+            LAUNCH=get_launch(),
+            STAB=get_stabilize(),
+            DATA=self.construct_data(),
         )
 
     @staticmethod
@@ -129,10 +134,16 @@ class App:
         amount of time, or ortherwise the mission should be stopped imediatly
         """
         self.recv_timeout_event.set()
+        self.ls.bind_queue(None)
+        set_stabilize(0)
+        set_abort(1)
+        set_qdm(1)
 
     def cleanup(self):
         """Called at end of a mission to dealloc resources"""
         self.ls.bind_queue(None)
+        if self.recv_timer and self.recv_timer.is_alive():
+            self.recv_timer.cancel()
 
 
 def run_app(ls: LaunchStation, timeout: float | None = None):
