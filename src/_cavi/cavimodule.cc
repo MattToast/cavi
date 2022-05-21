@@ -2,6 +2,22 @@
 
 #include "include/py_methods.hh"
 
+static struct PyModuleDef dataModule = {
+  PyModuleDef_HEAD_INIT,
+  "data",
+  NULL,
+  -1,
+  cavimodule::data::methods
+};
+
+static struct PyModuleDef statusModule = {
+  PyModuleDef_HEAD_INIT,
+  "status",
+  NULL,
+  -1,
+  cavimodule::status::methods
+};
+
 static struct PyModuleDef module = {
   PyModuleDef_HEAD_INIT,
   "_cavi",
@@ -13,5 +29,14 @@ static struct PyModuleDef module = {
 PyMODINIT_FUNC
 PyInit__cavi()
 {
-  return PyModule_Create(&module);
+  PyObject* moduleObj = PyModule_Create(&module);
+  PyObject* dataObj = PyModule_Create(&dataModule);
+  PyObject* statusObj = PyModule_Create(&statusModule);
+
+  if (PyModule_AddObject(moduleObj, "data", dataObj) < 0 ||
+      PyModule_AddObject(moduleObj, "status", statusObj) < 0) {
+    return NULL;
+  }
+
+  return moduleObj;
 }

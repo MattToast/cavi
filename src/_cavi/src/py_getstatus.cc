@@ -2,7 +2,7 @@
 
 #include "../include/py_methods.hh"
 
-namespace cavimodule {
+namespace cavimodule::status {
 
 PyObject*
 getArm(PyObject* self)
