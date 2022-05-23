@@ -1,1 +1,1 @@
-git+https://github.com/purdue-orbital/orbitalcoms#egg=orbitalcoms
+git+https://github.com/purdue-orbital/orbitalcoms@v0.1.0#egg=orbitalcoms

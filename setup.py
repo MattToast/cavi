@@ -14,8 +14,4 @@ _cavi = Extension(
 )
 
 if __name__ == "__main__":
-    setup(
-        ext_modules=[
-            _cavi,
-        ]
-    )
+    setup(ext_modules=[_cavi])

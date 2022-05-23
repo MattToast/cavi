@@ -1,0 +1,7 @@
+[tool.mypy]
+python_version = "3.10"
+namespace_packages = true
+files = [
+  "src/",
+]
+strict = true
