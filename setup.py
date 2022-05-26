@@ -1,15 +1,25 @@
-from setuptools import setup, Extension
+from pathlib import Path
+from typing import List
+
+from setuptools import Extension, setup
+
+
+def find_cpp(root_dir: str, strict: bool = False) -> List[str]:
+    """Find all C++ files in dir relative to project root"""
+    cpp_suffixs = [".cc", ".cpp"]
+    if not strict:
+        cpp_suffixs.append(".c")
+    return [
+        str(path)
+        for path in (Path(__file__).parent.resolve() / root_dir).rglob("*")
+        if path.is_file() and path.suffix in cpp_suffixs
+    ]
 
 
 _cavi = Extension(
-    name="_cavi",
+    name="cavi._cavi",
     language="c++",
-    sources=[
-        "src/_cavi/cavimodule.cc",
-        "src/_cavi/src/py_getdata.cc",
-        "src/_cavi/src/py_getstatus.cc",
-        "src/_cavi/src/py_setstatus.cc",
-    ],
+    sources=find_cpp("src/_cavi"),
     optional=False,
 )
 
