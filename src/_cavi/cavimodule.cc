@@ -33,11 +33,12 @@ PyInit__cavi()
   PyObject* dataObj = PyModule_Create(&dataModule);
   PyObject* statusObj = PyModule_Create(&statusModule);
 
+  // TODO: Needs better error handling
   if (moduleObj == NULL || dataObj == NULL || statusObj == NULL)
     return NULL;
 
-  if (PyModule_AddObject(moduleObj, "data", dataObj) < 0 ||
-      PyModule_AddObject(moduleObj, "status", statusObj) < 0) {
+  if (PyModule_AddObjectRef(moduleObj, "data", dataObj) < 0 ||
+      PyModule_AddObjectRef(moduleObj, "status", statusObj) < 0) {
     return NULL;
   }
 
