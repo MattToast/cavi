@@ -4,7 +4,7 @@
 
 static struct PyModuleDef dataModule = {
   PyModuleDef_HEAD_INIT,
-  "_cavi.data",
+  "cavi._cavi.data",
   NULL,
   -1,
   cavimodule::data::methods
@@ -12,7 +12,7 @@ static struct PyModuleDef dataModule = {
 
 static struct PyModuleDef statusModule = {
   PyModuleDef_HEAD_INIT,
-  "_cavi.status",
+  "cavi._cavi.status",
   NULL,
   -1,
   cavimodule::status::methods
@@ -20,7 +20,7 @@ static struct PyModuleDef statusModule = {
 
 static struct PyModuleDef module = {
   PyModuleDef_HEAD_INIT,
-  "_cavi",
+  "cavi._cavi",
   NULL,
   -1,
   cavimodule::methods
@@ -33,14 +33,26 @@ PyInit__cavi()
   PyObject* dataObj = PyModule_Create(&dataModule);
   PyObject* statusObj = PyModule_Create(&statusModule);
 
-  // TODO: Needs better error handling
-  if (moduleObj == NULL || dataObj == NULL || statusObj == NULL)
-    return NULL;
-
-  if (PyModule_AddObjectRef(moduleObj, "data", dataObj) < 0 ||
-      PyModule_AddObjectRef(moduleObj, "status", statusObj) < 0) {
+  if (moduleObj == NULL || dataObj == NULL || statusObj == NULL) {
+    // Should never be executed but clean up just in case
+    Py_XDECREF(moduleObj);
+    Py_XDECREF(dataObj);
+    Py_XDECREF(statusObj);
     return NULL;
   }
 
+  if (PyModule_AddObjectRef(moduleObj, "data", dataObj) < 0 ||
+      PyModule_AddObjectRef(moduleObj, "status", statusObj) < 0) {
+    // Once again should not be executed but good to clean up
+    Py_DECREF(dataObj);
+    Py_DECREF(statusObj);
+    return NULL;
+  }
+
+  // Decref count to unsused modules
+  Py_DECREF(dataObj);
+  Py_DECREF(statusObj);
+
+  // return `_cavi`
   return moduleObj;
 }

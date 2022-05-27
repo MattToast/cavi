@@ -17,7 +17,7 @@ def find_cpp(root_dir: str, strict: bool = False) -> List[str]:
 
 
 _cavi = Extension(
-    name="_cavi",
+    name="cavi._cavi",
     language="c++",
     sources=find_cpp("src/_cavi"),
     optional=False,

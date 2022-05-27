@@ -1,4 +1,4 @@
-from _cavi import data, status
+from cavi._cavi import data, status
 
 __all__ = [
     "data",
