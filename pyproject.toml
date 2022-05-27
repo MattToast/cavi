@@ -4,4 +4,7 @@ namespace_packages = true
 files = [
   "src/",
 ]
+exclude = [
+  "cavi-stubs/__init__.pyi"
+]
 strict = true
