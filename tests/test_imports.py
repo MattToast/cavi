@@ -1,5 +1,5 @@
 def test_cavi_imports():
-    from cavi import status, data
+    from cavi import data, status
 
 
 def test__cavi_built():
