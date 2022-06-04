@@ -2,36 +2,38 @@
 
 #include "../include/py_methods.hh"
 
+#define MOCK_STATUS (cavimodule::_testing::mockStatus)
+
 namespace cavimodule::status {
 
 PyObject*
 getArm(PyObject* self)
 {
-  return PyLong_FromSize_t(mockStatus.ARM);
+  return PyLong_FromSize_t(MOCK_STATUS->ARM);
 }
 
 PyObject*
 getAbort(PyObject* self)
 {
-  return PyLong_FromSize_t(mockStatus.ABORT);
+  return PyLong_FromSize_t(MOCK_STATUS->ABORT);
 }
 
 PyObject*
 getQDM(PyObject* self)
 {
-  return PyLong_FromSize_t(mockStatus.QDM);
+  return PyLong_FromSize_t(MOCK_STATUS->QDM);
 }
 
 PyObject*
 getLaunch(PyObject* self)
 {
-  return PyLong_FromSize_t(mockStatus.LAUNCH);
+  return PyLong_FromSize_t(MOCK_STATUS->LAUNCH);
 }
 
 PyObject*
 getStabilize(PyObject* self)
 {
-  return PyLong_FromSize_t(mockStatus.STABILIZE);
+  return PyLong_FromSize_t(MOCK_STATUS->STABILIZE);
 }
 
-} // cavimodule
+} // cavimodule::status

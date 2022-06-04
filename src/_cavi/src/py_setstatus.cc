@@ -2,6 +2,8 @@
 
 #include "../include/py_methods.hh"
 
+#define MOCK_STATUS (cavimodule::_testing::mockStatus)
+
 namespace cavimodule::status {
 
 PyObject*
@@ -11,7 +13,7 @@ setArm(PyObject* self, PyObject* args)
   if (!PyArg_ParseTuple(args, "i", &newVal))
     return NULL;
 
-  mockStatus.ARM = newVal;
+  MOCK_STATUS->ARM = newVal;
   Py_RETURN_TRUE;
 }
 
@@ -21,7 +23,7 @@ setAbort(PyObject* self, PyObject* args)
   uint32_t newVal{};
   if (!PyArg_ParseTuple(args, "i", &newVal))
     return NULL;
-  mockStatus.ABORT = newVal;
+  MOCK_STATUS->ABORT = newVal;
   Py_RETURN_TRUE;
 }
 
@@ -31,7 +33,7 @@ setQDM(PyObject* self, PyObject* args)
   uint32_t newVal{};
   if (!PyArg_ParseTuple(args, "i", &newVal))
     return NULL;
-  mockStatus.QDM = newVal;
+  MOCK_STATUS->QDM = newVal;
   Py_RETURN_TRUE;
 }
 
@@ -41,7 +43,7 @@ setLaunch(PyObject* self, PyObject* args)
   uint32_t newVal{};
   if (!PyArg_ParseTuple(args, "i", &newVal))
     return NULL;
-  mockStatus.LAUNCH = newVal;
+  MOCK_STATUS->LAUNCH = newVal;
   Py_RETURN_TRUE;
 }
 
@@ -51,8 +53,8 @@ setStabilize(PyObject* self, PyObject* args)
   uint32_t newVal{};
   if (!PyArg_ParseTuple(args, "i", &newVal))
     return NULL;
-  mockStatus.STABILIZE = newVal;
+  MOCK_STATUS->STABILIZE = newVal;
   Py_RETURN_TRUE;
 }
 
-} // cavimodule
+} // cavimodule::status
