@@ -78,7 +78,7 @@ inline auto mockStatus = std::make_unique<MockLaunchStatus>();
 static PyObject*
 resetTestStatus() {
   mockStatus->reset();
-  return Py_BuildValue("");
+  Py_RETURN_NONE;
 }
 
 static inline struct PyMethodDef methods[] = {
