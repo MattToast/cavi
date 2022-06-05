@@ -31,3 +31,8 @@ clean:
 clobber: clean rm-build
 	@${PIP} uninstall cavi -y
 	@find . | grep -E "\.egg-info$$" | xargs rm -rf
+
+
+.PHONEY: test
+test:
+	${PY} -m pytest tests
