@@ -34,5 +34,5 @@ clobber: clean rm-build
 
 
 .PHONEY: test
-test:
+test: cavi
 	${PY} -m pytest tests
