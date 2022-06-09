@@ -11,7 +11,8 @@ help:
 	@echo "rm-build --- remove the current build"
 	@echo "clean ------ remove all cache files"
 	@echo "clobber ---- 'clean' and 'rm-buiild' and uninstall 'cavi'"
-	@echo "test ------- compile and run tests"
+	@echo "test ------- run tests w/o re-compiling"
+	@echo "ctest ------ compile and run tests"
 
 
 .PHONY: cavi
@@ -46,5 +47,9 @@ clobber: clean rm-build
 
 
 .PHONEY: test
-test: cavi
+test:
 	${PY} -m pytest tests
+
+
+.PHONEY: ctest
+ctest: cavi test
