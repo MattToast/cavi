@@ -1,6 +1,6 @@
 from pathlib import Path
 from typing import List
-
+import os
 from setuptools import Extension, setup
 
 
@@ -16,6 +16,15 @@ def find_cpp(root_dir: str, strict: bool = False) -> List[str]:
     ]
 
 
+def find_stubs(root_dir):
+    stubs = []
+    for root, dirs, files in os.walk(root_dir):
+        for file in files:
+            path = os.path.join(root, file).replace(root_dir + os.sep, "", 1)
+            stubs.append(path)
+    return stubs
+
+
 _cavi = Extension(
     name="cavi._cavi",
     language="c++",
@@ -25,4 +34,9 @@ _cavi = Extension(
 )
 
 if __name__ == "__main__":
-    setup(ext_modules=[_cavi])
+    setup(
+        ext_modules=[_cavi],
+        packages=["cavi", "cavi-stubs"],
+        package_data={"cavi-stubs": find_stubs("src/cavi-stubs")},
+    )
+    # print(find_stubs("src/cavi-stubs"))
