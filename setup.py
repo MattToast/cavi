@@ -1,5 +1,4 @@
 from pathlib import Path
-from pickle import NONE
 from typing import List
 
 from setuptools import Extension, setup
@@ -22,7 +21,7 @@ _cavi = Extension(
     language="c++",
     sources=find_cpp("src/_cavi"),
     optional=False,
-    define_macros=[("CAVI_TEST_BUILD", NONE)],
+    define_macros=[("CAVI_TEST_BUILD", None)],
 )
 
 if __name__ == "__main__":
