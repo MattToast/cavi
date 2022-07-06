@@ -9,6 +9,14 @@
 
 namespace cavimodule {
 
+static inline bool useMockHardware() {
+#ifdef CAVI_TEST_BUILD
+  return true;
+#else
+  return false;
+#endif
+}
+
 // Status Methods
 namespace status {
 

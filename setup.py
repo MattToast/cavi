@@ -21,6 +21,7 @@ _cavi = Extension(
     language="c++",
     sources=find_cpp("src/_cavi"),
     optional=False,
+    define_macros=[("CAVI_TEST_BUILD", None)],
 )
 
 if __name__ == "__main__":

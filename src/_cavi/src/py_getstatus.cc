@@ -9,31 +9,51 @@ namespace cavimodule::status {
 PyObject*
 getArm(PyObject* self)
 {
-  return PyLong_FromSize_t(MOCK_STATUS->ARM);
+  if (useMockHardware()) {
+    return PyLong_FromSize_t(MOCK_STATUS->ARM);
+  }
+  // TODO: Add something to read status from hardware
+  return PyLong_FromDouble(-1);
 }
 
 PyObject*
 getAbort(PyObject* self)
 {
-  return PyLong_FromSize_t(MOCK_STATUS->ABORT);
+  if (useMockHardware()) {
+    return PyLong_FromSize_t(MOCK_STATUS->ABORT);
+  }
+  // TODO: Add something to read status from hardware
+  return PyLong_FromDouble(-1);
 }
 
 PyObject*
 getQDM(PyObject* self)
 {
-  return PyLong_FromSize_t(MOCK_STATUS->QDM);
+  if (useMockHardware()) {
+    return PyLong_FromSize_t(MOCK_STATUS->QDM);
+  }
+  // TODO: Add something to read status from hardware
+  return PyLong_FromDouble(-1);
 }
 
 PyObject*
 getLaunch(PyObject* self)
 {
-  return PyLong_FromSize_t(MOCK_STATUS->LAUNCH);
+  if (useMockHardware()) {
+    return PyLong_FromSize_t(MOCK_STATUS->LAUNCH);
+  }
+  // TODO: Add something to read status from hardware
+  return PyLong_FromDouble(-1);
 }
 
 PyObject*
 getStabilize(PyObject* self)
 {
-  return PyLong_FromSize_t(MOCK_STATUS->STABILIZE);
+  if (useMockHardware()) {
+    return PyLong_FromSize_t(MOCK_STATUS->STABILIZE);
+  }
+  // TODO: Add something to read status from hardware
+  return PyLong_FromDouble(-1);
 }
 
 } // cavimodule::status

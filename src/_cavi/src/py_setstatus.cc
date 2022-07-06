@@ -13,7 +13,12 @@ setArm(PyObject* self, PyObject* args)
   if (!PyArg_ParseTuple(args, "i", &newVal))
     return NULL;
 
-  MOCK_STATUS->ARM = newVal;
+  if (useMockHardware()) {
+    MOCK_STATUS->ARM = newVal;
+  } else {
+    // TODO: do something to change status on hardware
+    Py_RETURN_FALSE;
+  }
   Py_RETURN_TRUE;
 }
 
@@ -23,7 +28,13 @@ setAbort(PyObject* self, PyObject* args)
   uint32_t newVal{};
   if (!PyArg_ParseTuple(args, "i", &newVal))
     return NULL;
-  MOCK_STATUS->ABORT = newVal;
+
+  if (useMockHardware()) {
+    MOCK_STATUS->ABORT = newVal;
+  } else {
+    // TODO: do something to change status on hardware
+    Py_RETURN_FALSE;
+  }
   Py_RETURN_TRUE;
 }
 
@@ -33,7 +44,13 @@ setQDM(PyObject* self, PyObject* args)
   uint32_t newVal{};
   if (!PyArg_ParseTuple(args, "i", &newVal))
     return NULL;
-  MOCK_STATUS->QDM = newVal;
+
+  if (useMockHardware()) {
+    MOCK_STATUS->QDM = newVal;
+  } else {
+    // TODO: do something to change status on hardware
+    Py_RETURN_FALSE;
+  }
   Py_RETURN_TRUE;
 }
 
@@ -43,7 +60,13 @@ setLaunch(PyObject* self, PyObject* args)
   uint32_t newVal{};
   if (!PyArg_ParseTuple(args, "i", &newVal))
     return NULL;
-  MOCK_STATUS->LAUNCH = newVal;
+
+  if (useMockHardware()) {
+    MOCK_STATUS->LAUNCH = newVal;
+  } else {
+    // TODO: do something to change status on hardware
+    Py_RETURN_FALSE;
+  }
   Py_RETURN_TRUE;
 }
 
@@ -53,7 +76,13 @@ setStabilize(PyObject* self, PyObject* args)
   uint32_t newVal{};
   if (!PyArg_ParseTuple(args, "i", &newVal))
     return NULL;
-  MOCK_STATUS->STABILIZE = newVal;
+
+  if (useMockHardware()) {
+    MOCK_STATUS->STABILIZE = newVal;
+  } else {
+    // TODO: do something to change status on hardware
+    Py_RETURN_FALSE;
+  }
   Py_RETURN_TRUE;
 }
 
