@@ -2,6 +2,6 @@
 python_version = "3.10"
 namespace_packages = true
 files = [
-  "src/",
+  "src/cavi",
 ]
 strict = true
