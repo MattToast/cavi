@@ -5,7 +5,16 @@ from setuptools import Extension, setup
 
 
 def find_cpp(root_dir: str, strict: bool = False) -> List[str]:
-    """Find all C++ files in dir relative to project root"""
+    """Find all absolute paths to C++ files in dir
+    relative to project root
+
+    :param root_dir: Path to a dir to look for C++ files
+    :type root_dir: str
+    :param strict: Whether or not to add c style files, defaut false
+    :type strict: bool
+    :return: List of paths to found files
+    :rtype: List[str]
+    """
     cpp_suffixs = [".cc", ".cpp"]
     if not strict:
         cpp_suffixs.append(".c")
@@ -16,13 +25,21 @@ def find_cpp(root_dir: str, strict: bool = False) -> List[str]:
     ]
 
 
-def find_stubs(root_dir):
-    """Find all stub files in a dir relative to project root"""
+def find_stubs(root_dir: str) -> List[str]:
+    """Find all relative paths to stub files in a dir
+    relative to project root
+
+    :param root_dir: Path to a dir to look for stubs
+    :type root_dir: str
+    :return: List of paths to found files
+    :rtype: List[str]
+    """
     stubs = []
     for root, _, files in os.walk(root_dir):
         for file in files:
             path = os.path.join(root, file).replace(root_dir + os.sep, "", 1)
-            stubs.append(path)
+            if path.endswith(".pyi"):
+                stubs.append(path)
     return stubs
 
 
